@@ -23,20 +23,6 @@ app.get('/', index.home);
 app.get('/cats', index.cats);
 app.get('/cats/new', index.newcats);
 app.get('/cats/bycolor/:color', index.bycolor)
-app.param('bycolor', function(req, res, next, id) {
-
-  // try to get the user details from the User model and attach it to the request object
-  User.find(id, function(err, user) {
-    if (err) {
-      next(err);
-    } else if (user) {
-      req.user = user;
-      next();
-    } else {
-      next(new Error('failed to load user'));
-    }
-  });
-});
 app.get('/cats/delete/old', index.oldcats)
 
 app.listen(3000);
