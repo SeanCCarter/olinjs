@@ -16,20 +16,28 @@ cats.cats = function(req, res){
 };
 
 cats.newcats = function(req, res){
-	console.log("newcat function called.")
 	//Creating the new cat
 	var newcat = new Cat({
 		name: names[Math.floor(Math.random()*names.length)],
 		age: Math.floor(Math.random()*25),
 		color: colors[Math.floor(Math.random()*colors.length)]
-		});
+	});
+
 	//Saving the new cat to a database
 	newcat.save(function (err) {
-  		if (err) {
+  	if (err) {
     	console.log("Problem saving new cat", err);
-  		}
+  	} else {
+  		res.render("newcats", newcat);
+  		// It's a good idea to do your rendering inside the save method after handling the
+  		// error so you don't render the cat if it wasn't actually saved
+  	}
 	});
-	res.render("newcats", newcat)
+
+	// Fixed the indenting/spacing to be consistent/conventional -- we'll add
+	// linters later which will check conventions for you :)
+
+	// This looks great, and I love the comments!
 };
 
 cats.bycolor = function(req, res){
@@ -52,18 +60,28 @@ cats.byage = function(req, res){
 };
 
 cats.oldcats = function(req, res){
-	Cat.find().sort({age:-1}).exec(function(err, cats){
+	Cat.find().sort({age: -1}).exec(function(err, cats) { // nice method chaining
 		if (cats.length !== 0) {
 			oldestcat = cats[0];
-			console.log("Removing cat.");
-			console.log(oldestcat);
-			res.render("oldcats", oldestcat);
-			oldestcat.remove()
+			oldestcat.remove(function(err) {
+				res.render("oldcats", oldestcat);
+				/* 
+				best practice to do this last -- in this case, inside the callback
+			  (I think there's a callback here -- if not, just put the `res.render` line
+				after the oldestcat.remove() line)
+				*/
+			});
+			
+		} else {
+			res.render("nocats"); // awesome that you're catching the edge case!
 		}
-		else {
-			res.render("nocats")
-		}
-		});
+	});
+
+	/*
+	Best practice to get rid of debugging mechanisms (e.g. console.log statements)
+	before submitting your code -- if you had console.logs in a production app, you'd
+	fill up your logs with unnecessary info in no time :/
+	*/
 };
 
 module.exports = cats;
@@ -81,4 +99,4 @@ var names = ['Kathryn', 'Dantin', 'Marya', 'Caya', 'Shawnta', 'Nourse', 'Heidi',
 'Halbert', 'Noelia', 'Michaux', 'Bettie', 'Henault', 'Neil', 'Defalco', 'Carlena', 'Farrar', 'Brianna', 
 'Ohair', 'Gertie', 'Dingee', 'Lavelle', 'Rosengarten', 'Letitia', 'Mccallion', 'Jerlene', 'Mesta', 'Phil', 
 'Blackmer', 'Rodolfo', 'Shoults'];
-// Names from http://listofrandomnames.com/
+// Names from http://listofrandomnames.com/ :)
