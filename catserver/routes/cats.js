@@ -50,11 +50,22 @@ cats.bycolor = function(req, res){
 };
 
 cats.byage = function(req, res){
-	console.log("Sorting by age.")
-	console.log(req.params.smallestage);
-	console.log(req.params.largestage);
-	Cat.find({ $and:[{age:{$gt:req.params.smallestage}},{age:{$lt:req.params.largestage}}] }, function(err, cats){
-  		console.log(cats);
+	/* 
+	The first line is so long/complicated that I might build the query object first:
+	var query = { 
+		$and:[
+			{age: {$gt: req.params.smallestage}},
+			{age: {$lt: req.params.largestage}}
+		] 
+	};
+
+	...and then 
+	Cat.find(query, function(err, cats) {...});
+
+	A little easier to understand/maintain that way.
+	Awesome advanced query :)
+	*/
+	Cat.find({ $and:[{age:{$gt:req.params.smallestage}},{age:{$lt:req.params.largestage}}] }, function(err, cats) {
 		res.render("cats", {"cats": cats});
 	});
 };
