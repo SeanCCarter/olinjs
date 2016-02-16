@@ -1,0 +1,24 @@
+<h2>Ingredients:</h2>
+<ul id=ingredientList>
+{{#each ingredients}}
+<div id={{this._id}}>
+<li>
+{{this.name}}: <input type="text" name="{{this._id}}" value={{this.price}}><br>
+{{#if inStock}}
+<input type="checkbox" name="{{this._id}}" value="inStock" checked> In Stock<br>
+{{else}}
+<input type="checkbox" name="{{this._id}}" value="inStock"> In Stock<br>
+{{/if}}
+<button type="button" name={{this._id}} class = "IngredientUpdate">Update Ingredient Info.</button>
+</li>
+</div>
+{{/each}}
+</ul>
+
+<form id="ingredient-form" action="makeOrder" method="POST">
+Add New Ingredient:<br>
+Name: <input type="text" name="name"><br>
+Price: <input type="text" name="ingredientPrice"><br>
+<input type="checkbox" name="inStocktoggle" value="inStock" checked> In Stock?<br>
+<input type="submit" value="Submit">
+</form>

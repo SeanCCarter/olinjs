@@ -1,0 +1,14 @@
+<h2>Pending Orders:</h2>
+<ul>
+{{#each orders}}
+<div id={{this._id}}>
+<li>
+{{this.name}}<br>
+Ingredients: {{this.ingredients}}<br>
+<button type="button" name={{this._id}} class = "kitchenButton">Resolve Order</button>
+</li>
+</div>
+{{else}} 
+There are no orders.
+{{/each}}
+<ul>

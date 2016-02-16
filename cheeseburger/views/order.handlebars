@@ -1,0 +1,20 @@
+<h2>Choose Ingredients!</h2>
+<form id="order-form" action="makeOrder" method="POST">
+Your name?: <input type="text" name="name"/><br/>
+{{#each ingredients}}
+{{#if inStock}}
+<input class="ingredientbox" type="checkbox" name="{{name}}" value={{price}}> {{name}}<br>
+{{^}}
+<input type="checkbox" name="ingredient" value={{price}} disabled="disabled"> {{name}}<br>
+{{/if}}
+{{/each}}
+<h4>Total Cost:</h4>
+<div id="result">
+0
+</div>
+<input type="submit" value="Submit">
+</form>
+
+
+
+

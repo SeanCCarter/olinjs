@@ -5,7 +5,7 @@ var routes = {};
 var getCatImage = function(catParams, absolute) {
   var imageLocation;
   var happyCat = "images/cat.jpg";
-  var grumpyCat = "images/grumpy.jpeg";
+  var grumpyCat = "images/grumpy.jpg";
   switch (catParams.mood) {
     case "happy":
       imageLocation = absolute ? path.join(__dirname,"../public/", happyCat) : happyCat;
