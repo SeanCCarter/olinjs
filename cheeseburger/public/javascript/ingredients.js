@@ -3,7 +3,6 @@ var $Ingredientform = $("#ingredient-form");
 var onSuccess = function(data, status) {
   var ingredientList = document.getElementById("ingredientList");
   var ingredientItem = document.createElement("li");
-  console.log(data)
   html = data.name+": <input type='text' name="+data._id+" value="+data.price+"><br>"
   if (data.inStock){
   	html += "<input type='checkbox' name="+data._id+" value='inStock' checked> In Stock<br>";
