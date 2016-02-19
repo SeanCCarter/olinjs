@@ -1,0 +1,24 @@
+<h1>Welcome to Twoter!<h1>
+
+<form id="twote-form" action="postTwote" method="POST">
+Twote<br>
+<input type="text" name="twoteText"> <input type="submit" value=">"> <br>
+<div class=currentUser></div>
+</form>
+
+<ul id='twotelist'>
+{{#each twotes}}
+<div id={{_id}} class="twote">
+<li>
+{{text}}<br>
+-{{user}}
+ <button type="button" id={{_id}} class="twoteDeleteButton" user='{{user}}'>Delete</button> 
+</li>
+</div>
+
+{{/each}}
+</ul>
+<br>
+<br>
+<a href="/login">login</a>
+
