@@ -1,0 +1,73 @@
+div {
+    color white;
+    background-color: #3BA3CB
+}
+.clicked {
+  background-color: yellow;
+  box-shadow: 5px 5px 5px #888888;
+}
+.twote {
+  background-color: #8ED0E9;
+  box-shadow: 5px 5px 5px #888888;
+  margin: 10px;
+}
+.twote:hover {
+  background-color: #5EB8DA;
+  box-shadow: none;
+}
+.currentUser {
+  background-color: #8ED0E9;
+}
+.user {
+  background-color: #1B90BD;
+}
+.user:hover {
+  background-color: #05719A;
+}
+.title {
+  text-align: center
+}
+
+
+div[class="clicked"]{
+  background-color: #FFD966;
+  margin: 10px;
+}
+div[class="clicked"]:hover{
+  background-color: #FECB33;
+  margin: 10px;
+  box-shadow: none;
+}
+
+.twoter-page{
+  /* metrics */
+  margin: 8px;
+  border: 2px solid black;
+  padding: 8px;
+  width: 600px;
+  margin-left: auto;
+   margin-right: auto;
+}
+.col-wrapper {
+ width:600px;
+ overflow:hidden;
+ box-align: center;
+}
+.lefthome {
+ width:400px;
+ float:left;
+ box-align: center;
+}
+.righthome {
+ width:200px;
+ float:right;
+ box-align: center;
+}
+
+
+form {
+}
+.twoteForm{
+ width:400px;
+ background-color: #8ED0E9;
+}

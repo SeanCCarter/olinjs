@@ -7,7 +7,15 @@ var home = function(req, res){
   		console.log(err);
   	}
   	else {
-  		res.render("home", {'twotes':twotes.reverse()})
+  		User.find({}, function(err, users){
+  			if (err){
+  				console.log(err)
+  			}
+  			else {
+  				console.log(users)
+  				res.render("home", {'twotes':twotes.reverse(), 'users':users})
+  			}
+  		})
   	}
   })
 };

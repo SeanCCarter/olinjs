@@ -1,22 +1,17 @@
 var $form = $("#twote-form");
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //These duplicate the text created by the original page load for the new twote//
 ////////////////////////////////////////////////////////////////////////////////
 var onTwoteSuccess = function(data, status) {
-  console.log("Twote client contacted server")
   twoteList = document.getElementById("twotelist")
   $form.find("input[name=twoteText]").val("")
   twote = createTwoteHTML(data)
   twoteList.insertBefore(twote, twoteList.childNodes[0])
-  console.log($("div[class=" + data._id + "]").val())
   
   //This binds the deleteTwote stuff to the new button
-  //I want a better way, but I don't really know how.
+  //I want a better way, but I don't really know one.
   $("button[class=twoteDeleteButton]").click(function(){
-  console.log("Deleting twote")
-  console.log(this.id)
   username = getCookie("twoterCookie")
   $.get("/deleteTwote", {'id':this.id, 'username':username, 'password':'password'})
     .done(onDeleteSuccess)
@@ -26,13 +21,15 @@ var onTwoteSuccess = function(data, status) {
 
 var createTwoteHTML = function(twote) {
   var twoteDiv = document.createElement("div")
-  twoteDiv.class = twote._id
-  var twoteItem = document.createElement("li");
+  twoteDiv.id = twote._id;
+  twoteDiv.className = "twote";
+  twoteDiv.setAttribute('user', twote.user);
   html = twote.text + "<br>";
   html += "-" + twote.user;
   html += ('<button type="button" id="'+twote._id+'" class="twoteDeleteButton" user="'+twote.user+'">Delete</button>');
-  twoteItem.innerHTML = html;
-  return twoteDiv.appendChild(twoteItem)
+  twoteDiv.innerHTML = html;
+  console.log(twoteDiv)
+  return twoteDiv
 };
 
 var onTwoteError = function(data, status) {
@@ -45,6 +42,14 @@ var onTwoteError = function(data, status) {
 ////////////////////////////////////////////////////
 //This is to get the username to put on the Twotes//
 ////////////////////////////////////////////////////
+function setCookie(cname, cvalue, exdays) {
+	//Borrowed from TutorialsPoint
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires + "path=\\";
+}
+
 function getCookie(cname) {
   //Function from TutorialsPoint
   var name = cname + "=";
@@ -58,11 +63,30 @@ function getCookie(cname) {
 }
 
 var setUsername = function(){
-  console.log("Setting Username:")
   username = getCookie("twoterCookie");
-  console.log(username);
   $("div[class=currentUser]").html("-"+username);
 }();
+
+//This bit connects the login/logout button
+username = getCookie("twoterCookie");
+if (!username) {
+  $("button[class='loginButton']").click(function(){
+  	window.location = "/login"
+  });
+}
+else {
+  $("button[class='loginButton']").html("logout");
+  $("button[class='loginButton']").click(function(){
+    setCookie("twoterCookie", "Nobody", -1);
+    $form.html("Please Login");
+    $(this).html("login")
+    $(this).click(function(){
+  	  window.location = "/login"
+    });
+  })
+}
+
+
 ////////////////////////////////////////////////////
 
 
@@ -73,7 +97,6 @@ var setUsername = function(){
 
 var onDeleteSuccess = function(data, status){
   if (data.deleted == true){
-  	console.log("Twote deleted")
   	$("div[id="+data.id+"]").remove()
   }
   else {
@@ -86,8 +109,6 @@ var onDeleteError = function(error, status){
 }
 
 var deleteTwote = function(id){
-  console.log("Deleting twote")
-  console.log(id)
   username = getCookie("twoterCookie")
   $.get("/deleteTwote", {'id':id, 'username':username, 'password':'password'})
     .done(onDeleteSuccess)
@@ -95,8 +116,6 @@ var deleteTwote = function(id){
 }
 
 $("button[class=twoteDeleteButton]").click(function(){
-  console.log("Deleting twote")
-  console.log(this.id)
   username = getCookie("twoterCookie")
   $.get("/deleteTwote", {'id':this.id, 'username':username, 'password':'password'})
     .done(onDeleteSuccess)
@@ -114,12 +133,34 @@ $("button[class=twoteDeleteButton]").each(function(){
 );
 ///////////////////////////////////
 
-
+///////////////////////////////////
+// Here we have name highliting  //
+///////////////////////////////////
+var clicked = null;
+//Track with thing is clicked
+$("div[class=user]").click(function(){
+  if ($(this).attr("id") == clicked){
+    $("div[class='clicked']").each(function(){
+      $(this).prop('class', 'twote');
+    })
+    clicked = null;
+  }
+  else{
+  	//Undo Previous click
+  	$("div[class='clicked']").each(function(){
+      $(this).prop('class', 'twote');
+    });
+    $("div[user='"+$(this).attr("id")+"']").each(function(){
+      $(this).prop('class', 'clicked');
+    });
+    clicked = $(this).attr("id");
+  }
+});
+///////////////////////////////////
 
 //This allows the user to easily submit a new twote
 $form.submit(function(event) {
   event.preventDefault();
-  console.log("Twote submitted")
   twote = $form.find("input[name=twoteText]").val()
   user = getCookie("twoterCookie")
   $.get("/postTwote", {'text':twote, 'user':user

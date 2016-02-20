@@ -1,23 +1,33 @@
+<div class='twoter-page'>
 <h1>Welcome to Twoter!<h1>
 
-<form id="twote-form" action="postTwote" method="POST">
+<form id="twote-form" action="postTwote" method="POST" class="twoteForm">
 Twote<br>
 <input type="text" name="twoteText"> <input type="submit" value=">"> <br>
 <div class=currentUser></div>
 </form>
 
-<ul id='twotelist'>
-{{#each twotes}}
-<div id={{_id}} class="twote">
-<li>
-{{text}}<br>
--{{user}}
- <button type="button" id={{_id}} class="twoteDeleteButton" user='{{user}}'>Delete</button> 
-</li>
+<div class=col-wrapper>
+<div id='twotelist' class=lefthome>
+  {{#each twotes}}
+  <div id={{_id}} class="twote" user='{{user}}'>
+  {{text}}<br>
+  -{{user}}
+   <button type="button" id={{_id}} class="twoteDeleteButton" user='{{user}}'>Delete</button> 
+  </div>
+  {{/each}}
+</div>
+<div class=righthome>
+  <button type="button" class="loginButton">Login</button>
+  {{#each users}}
+  <div id={{name}} class="user">
+  {{name}}
+  </div>
+  {{/each}}
+</div>
+</div>
 </div>
 
-{{/each}}
-</ul>
 <br>
 <br>
 <a href="/login">login</a>
