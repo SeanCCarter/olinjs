@@ -28,7 +28,6 @@ var createTwoteHTML = function(twote) {
   html += "-" + twote.user;
   html += ('<button type="button" id="'+twote._id+'" class="twoteDeleteButton" user="'+twote.user+'">Delete</button>');
   twoteDiv.innerHTML = html;
-  console.log(twoteDiv)
   return twoteDiv
 };
 
@@ -79,7 +78,6 @@ else {
   $("button[class='loginButton']").click(function(){
   	//Removing all delete buttons for twotes
   	$("button[class='twoteDeleteButton']").each(function(){
-  	console.log("Disabling buttons")
   	$(this).prop("disabled",true)
     });
     //Preparing button for login function

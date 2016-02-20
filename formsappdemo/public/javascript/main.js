@@ -4,8 +4,8 @@ var onSuccess = function(data, status) {
   var img = "<img src='"+data+"'/>";
   $("#result").html(img);
 };
-
 var onError = function(data, status) {
+
   console.log("status", status);
   console.log("error", data);
 };
