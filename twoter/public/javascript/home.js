@@ -77,6 +77,12 @@ if (!username) {
 else {
   $("button[class='loginButton']").html("logout");
   $("button[class='loginButton']").click(function(){
+  	//Removing all delete buttons for twotes
+  	$("button[class='twoteDeleteButton']").each(function(){
+  	console.log("Disabling buttons")
+  	$(this).prop("disabled",true)
+    });
+    //Preparing button for login function
     setCookie("twoterCookie", "Nobody", -1);
     $form.html("Please Login");
     $(this).html("login")
