@@ -25,6 +25,8 @@ pids
 # Dependency folders
 **/node_modules
 
+**/auth.js
+
 # Debug log from npm
 **/npm-debug.log
 
