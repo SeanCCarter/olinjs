@@ -1,0 +1,21 @@
+{
+  "name": "session_example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "express-handlebars": "^2.0.1",
+    "express-session": "^1.12.1",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0",
+    "path": "^0.12.7"
+  }
+}
