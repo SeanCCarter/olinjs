@@ -34,27 +34,37 @@ var order = function(req, res){
 	order.save(function (err) {
   		if (err) {
     	console.log("Problem saving new order", err);
+    	res.status(500).send("Problem saving new order"); //You want to signal to the client that something
+    	// bad happened so onError will run
+  		} else {
+  			res.end(); // do the error checking before you end the req. 
   		}
+
 	});
-	res.send() //Makes the onSubmit function actually run
+	//res.send() //Makes the onSubmit function actually run
 }
 
-var resolveOrder = function(req, res){
+var resolveOrder = function(req, res){ //This will hang
 	Order.findOne({_id:req.query.id}, function(err, order){
 		if (err) {
 			console.log(err)
+			res.status(500).send("Problem resolving order");
 		}
 		else {
 			console.log("Order removed.")
 			order.remove()
+			res.end();//End the request somehow. This could be a send or json also. 
 		}
+		
 	})
 }
 
-var updateIngredient = function(req, res){
+var updateIngredient = function(req, res){ //this will also hang
 	Ingredient.update({_id:req.query.id}, req.query.update, {}, function(err, numAffected){
 		if (err) {
 			console.log(err);
+		} else {
+			res.end();//See above
 		}
 	});
 }
@@ -64,9 +74,12 @@ var addIngredient = function(req, res){
 	ingredient.save(function (err) {
   		if (err) {
     	console.log("Problem saving new ingredient", err);
+    	res.status(500).send("Problem saving ingredient");
+  		} else {
+  		res.send(ingredient) //make sure error checking is done before you send back to the client
   		}
 	});
-	res.send(ingredient) //Makes the onSubmit function actually run
+	//res.send(ingredient) //Makes the onSubmit function actually run
 }
 
 module.exports.home = home;
