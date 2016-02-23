@@ -1,26 +1,20 @@
 var User = require("../models/userModel");
 var Twote = require("../models/twoteModel");
+var passport = require('passport');
 
 var home = function(req, res){
-  twotes = Twote.find({}, function(err, twotes){
-  	if (err){
-  		console.log(err);
-  	}
-  	else {
-  		User.find({}, function(err, users){
-  			if (err){
-  				console.log(err)
-  			}
-  			else {
-  				console.log(users)
-  				res.render("home", {'twotes':twotes.reverse(), 'users':users})
-  			}
-  		})
-  	}
-  })
+	User.find({}, function(err, users){
+		if (err){
+			console.log(err)
+		}
+		else {
+			res.render("home", {'users':users})
+		}
+	});
 };
 
 var postTwote = function(req, res){
+  console.log("Post twoted.")
   twote = new Twote();
   console.log(req.query)
   twote.text = req.query.text;
@@ -37,27 +31,6 @@ var login = function(req, res){
   res.render("login", {});	
 }
 
-var userLogin = function(req, res){
-  console.log("User reached index")
-  username = req.query.username;
-  User.find({'name':username}, function(err, users){
-  	if (err) {
-  		console.log(err)
-  	}
-  	else {
-  	  if(users.length){
-  	    res.send({username:username})
-  	  }
-  	  else{
-  	    user = new User({name:username, password:'password'})
-  	    console.log("New User Created.")
-  	    user.save()
-  	    res.send({username:username})
-  	  }
-  	}
-  });
-};
-
 var deleteTwote = function(req, res){
   console.log("User deleting a twote.")
   console.log(req.query)
@@ -71,14 +44,9 @@ var deleteTwote = function(req, res){
       	if (err){
       		console.log(err)
       	}
-      	if (user.password === req.query.password) {
-      	  console.log("Twote deleted")
-      	  twote.remove()
-          res.send({'id':req.query.id, 'deleted':true})
-      	}
-      	else {
-      	  console.log("User had wrong password")
-      	}
+    	  console.log("Twote deleted")
+    	  twote.remove()
+        res.send({'id':req.query.id, 'deleted':true})
       });
   	}
   	else {
@@ -92,8 +60,20 @@ var deleteTwote = function(req, res){
   });
 }
 
+var twoteList = function(req, res){
+  console.log("Twotelist contacted on server.")
+  twotes = Twote.find({}, function(err, twotes){
+    if (err){
+      console.log(err);
+    }
+    else {
+      res.send(twotes.reverse());
+    }
+  });
+}
+
 module.exports.home = home;
 module.exports.login = login;
 module.exports.postTwote = postTwote;
-module.exports.userLogin = userLogin;
 module.exports.deleteTwote = deleteTwote;
+module.exports.twoteList = twoteList;
