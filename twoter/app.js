@@ -48,8 +48,6 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-  	console.log("Req.body is:")
-  	console.log(req.body)
     res.redirect('/');
 });
 
@@ -60,21 +58,15 @@ app.get('/auth/local',
  });
 
 app.get('/currentUser', function(req, res){
-	console.log("Getting current user.")
 	if (!req.user) { //returns undefined if not logged in
-	  console.log("No user.")
       res.send(null)
 	}
 	else{
-	  console.log("User")
-	  console.log(req.user)
       res.send(req.user)
 	}
 })
 
 app.get('/logout', function(req, res){
-	console.log(req.body)
-	console.log("Server side logout reached.")
 	req.logout();
 	res.send()
 })
@@ -127,9 +119,6 @@ passport.use(new FacebookStrategy({
 passport.use(new LocalStrategy(
   {username:'name'},
   function(username, password, done) {
-  	console.log("Authenticating User")
-  	console.log(username)
-  	console.log(password)
     User.findOne({ name: username }, function (err, user) {
       if (err) { return done(err); }
       else if (!user) {
@@ -150,7 +139,6 @@ passport.use(new LocalStrategy(
       }
       else if (user.password !== password) { return done(null, false); }
       else {
-      console.log("Successful login.")
       return done(null, user);
       }
     });

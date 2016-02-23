@@ -43,7 +43,6 @@ function createTwoteHTML(twote) {
   twoteDiv.id = twote._id;
   twoteDiv.className = "twote";
   twoteDiv.setAttribute('user', twote.user);
-  console.log(twoteDiv.getAttribute("user"))
   html = twote.text + "<br>";
   html += "-" + twote.user;
   html += ('<button type="button" id="'+twote._id+'" class="twoteDeleteButton" user="'+twote.user+'">Delete</button>');
@@ -89,11 +88,6 @@ $.get("/currentUser", function(data, status){
     //If you are logged in
     $("button[class='loginButton']").html("logout");
     //Removing all delete buttons for twotes
-    console.log("It does work here.")
-    console.log($("button[class='twoteDeleteButton']"))
-    // $("button[class='twoteDeleteButton']").each(function(){
-    //   $(this).prop("disabled",true)
-    // });
 
     //Creating the Logout button
     $("button[class='loginButton']").click(function(){
@@ -138,11 +132,7 @@ var onDeleteError = function(error, status){
 function connectDeleteButtons(){
   $("button[class=twoteDeleteButton]").click(function(){
     id = $(this).attr("id")
-    console.log("Delete activated.")
-    console.log($(this).id)
     $.get("/currentUser", function(data, status){
-      console.log("Current user retrieved.")
-      console.log({'id':id, 'username':data.name, 'password':'password'})
       $.get("/deleteTwote", {'id':id, 'username':data.name, 'password':'password'})
       .done(onDeleteSuccess)
       .error(onDeleteError)
@@ -153,8 +143,6 @@ function connectDeleteButtons(){
 //Disables delete buttons once twotes are loaded
 function disableNecessaryButtons(){
   $.get("/currentUser", function(data, status){
-  console.log("Wokrs here. Has to.")
-  console.log($("button[class=twoteDeleteButton]"))
   $("button[class=twoteDeleteButton]").each(function(){
     if($(this).attr("user") == data.name){
       $(this).prop("disabled",false)
@@ -194,10 +182,8 @@ $("div[class=user]").click(function(){
 
 //This allows the user to easily submit a new twote
 $form.submit(function(event) {
-  console.log("Submitting twote form.")
   event.preventDefault();
   twote = $form.find("input[name=twoteText]").val()
-  console.log(twote)
   $.get("/currentUser").done(function(data, status){
     postTwote(twote, data.name)
   });
