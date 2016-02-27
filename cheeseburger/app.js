@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Not all of these should be get requests.
 app.get('/', index.home);
 app.get('/kitchen', index.kitchenPage);
 app.get('/order', index.orderPage);
