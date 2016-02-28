@@ -4,10 +4,17 @@ angular.module('toDo',[
 .controller("Main", function($scope) {
 
 	//Creating todo List, adding/deleting/editing Todos
-	$scope.todos = [
-	  {done:"done", checked:true, text:"Hello World."}
-	]; //Array of all todos
-
+	$.get("/todos", {})
+		//Gets all the todos from the database
+		.done(function(data, status){
+			$scope.todos = data;
+			$scope.$apply(); //It won't refresh. This fixes it.
+							 //I don't really know why.
+		})
+		.error(function(err, status){
+			console.log(err)
+			console.log(status)
+		});
 	function resetTodoForm(){
 		//Clears the form for the next entry
 		$scope.newtodo = {
@@ -15,15 +22,30 @@ angular.module('toDo',[
 		}
 	}
 	function createTodo(todo){
-		console.log("Created todo")
 		todo.checked = false;
-		$scope.todos.push(todo);
+		$.post("/newTodo", todo)
+			.done(function(data, status){
+				$scope.todos.push(data);
+				$scope.$apply();
+			})
+			.error(function(err, status){
+				console.log(err);
+				console.log(status);
+			})
 	    resetTodoForm();
 	}
 
 	function deleteTodo(todo){
-		index = $scope.todos.indexOf(todo);
-		$scope.todos.splice(index, 1);
+		$.post("/deleteTodo", todo)
+			.done(function(data, status){
+				index = $scope.todos.indexOf(data);
+				$scope.todos.splice(index, 1);
+				$scope.$apply()
+			})
+			.error(function(err, status){
+				console.log(err);
+				console.log(status);
+			})
 	}
 	$scope.createTodo = createTodo;
 	$scope.deleteTodo = deleteTodo;
@@ -43,11 +65,18 @@ angular.module('toDo',[
 	}
 
 	function editTodo(todo){
+		console.log("Editing now.")
 		$scope.toggleEditing = true;
 		$scope.editedTodo = todo;
 	}
 
 	function finishEditing(){
+		$.post("/editTodo", $scope.editedTodo)
+			.done(function(data, status){})
+			.error(function(err, status){
+				console.log(err)
+				console.log(status)
+			})
 		$scope.toggleEditing = false;
 		$scope.editedTodo = null;
 	}

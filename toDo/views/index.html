@@ -21,7 +21,7 @@
 
 	<ul>
 		<li ng-repeat='todo in todos | filter: doneFilter'>
-			<input type="checkbox" ng-model=todo.checked> {{todo.text}} <br>
+			<input type="checkbox" ng-model=todo.checked ng-change="editTodo(todo); finishEditing()"> {{todo.text}} <br>
 			<button type="button" ng-click="editTodo(todo)">Edit</button>
 			<button type="button" ng-click="deleteTodo(todo)">Delete</button>
 		</li>
