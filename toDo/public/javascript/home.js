@@ -102,5 +102,10 @@ angular.module('toDo',[
 		$scope.displayDone = state;
 	}
 	$scope.setDoneFilter = setDoneFilter;
+
+	$scope.isDoing = function(todo){
+		if(todo.checked){return false}
+		else{return true}
+	}
 	//////////////////
 })

@@ -25,12 +25,15 @@
 			<button type="button" ng-click="editTodo(todo)">Edit</button>
 			<button type="button" ng-click="deleteTodo(todo)">Delete</button>
 		</li>
+		<div ng-repeat="todo in todoing = (todos | filter: isDoing)">
+		</div>
 	</ul>
 
 	<!--Buttons for sorting the todos-->
 	<button type="button" ng-click="setDoneFilter(null)">All</button>
 	<button type="button" ng-click="setDoneFilter(false)">Doing</button>
-	<button type="button" ng-click="setDoneFilter(true)">Done</button>
+	<button type="button" ng-click="setDoneFilter(true)">Done</button><br>
+	Items to be completed: {{todoing.length}}
 
 </body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
