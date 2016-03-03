@@ -2,17 +2,35 @@
   "name": "expressdemo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "karma": "./node_modules/karma/bin/karma start karma.conf.js",
+    "mocha": "./node_modules/mocha/bin/mocha tests/server",
+    "cover-mocha": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha tests/server -- -R spec",
+    "test": "npm run karma && npm run cover-mocha",
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.2",
+    "chai": "^3.5.0",
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
     "morgan": "^1.6.1"
+  },
+  "devDependencies": {
+    "chai": "^2.0.0",
+    "istanbul": "^0.3.5",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-coverage": "^0.2.7",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-sinon": "^1.0.4",
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2"
   }
 }

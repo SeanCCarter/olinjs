@@ -29,3 +29,5 @@ app.get('/updateIngredient', index.updateIngredient)
 app.get('/addIngredient', index.addIngredient)
 
 app.listen(3000);
+
+module.exports = app

@@ -14,7 +14,6 @@ var kitchenPage = function(req, res){
 var orderPage = function(req, res){
   console.log("Opened Order page")
   Ingredient.find({}, function(err, ingredients){
-  	console.log(ingredients)
   	res.render("order", {'ingredients': ingredients});
   })
   
@@ -23,7 +22,6 @@ var orderPage = function(req, res){
 var ingredientsPage = function(req, res){
 	console.log("Opening ingredients page");
 	Ingredient.find({}, function(err, ingredients){
-		console.log(ingredients)
 		res.render("ingredients", {'ingredients':ingredients});
 	})
 }
