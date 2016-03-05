@@ -1,6 +1,13 @@
 var User = require("../models/userModel");
 var Twote = require("../models/twoteModel");
+// No need for this import as it is required in app.js
 var passport = require('passport');
+
+// Instead of exporting each function individually in your API file (index.js)
+// you can very handily define an object routes={}, that you can create callbacks in by
+// writing something like routes.home = function(req, res){...} and then you can simply export
+// routes as module.exports = routes. Hence you can access every method from app.js now
+// by simply doing index.home etc.
 
 var home = function(req, res){
 	User.find({}, function(err, users){
@@ -35,6 +42,7 @@ var deleteTwote = function(req, res){
   console.log("User deleting a twote.")
   console.log(req.query)
   Twote.findOne({'_id':req.query.id}, function(err, twote){
+    console.log("HERE", twote)
   	if (err) {
   	  console.log(err)
   	}
