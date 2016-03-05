@@ -11,7 +11,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var mongoose = require('mongoose');
-var auth = require('./auth')
+var auth = require('./oauth.js')
 
 mongoose.connect('mongodb://localhost/twoter');
 var User = require("./models/userModel");
@@ -57,6 +57,7 @@ app.get('/auth/local',
   	res.send();
  });
 
+// This piece of code is not required in master, why send req.user?
 app.get('/currentUser', function(req, res){
 	if (!req.user) { //returns undefined if not logged in
       res.send(null)
@@ -84,9 +85,9 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new FacebookStrategy({
-  clientID: auth.FACEBOOK_APP_ID,
-  clientSecret: auth.FACEBOOK_APP_SECRET,
-  callbackURL: auth.FACEBOOK_CALLBACK_URL,
+  clientID: auth.facebook.clientID,
+  clientSecret: auth.facebook.clientSecret,
+  callbackURL: auth.facebook.callbackURL,
   profileFields: ['id', 'displayName', 'photos', 'email']
   },
   function(accessToken, refreshToken, profile, done) {
